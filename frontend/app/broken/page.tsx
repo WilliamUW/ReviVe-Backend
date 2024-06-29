@@ -123,13 +123,13 @@ export default function BrokenElectronic() {
         console.log("Speech recognition started");
       };
 
-      recognition.onresult = (event) => {
+      recognition.onresult = (event: any) => {
         const transcript = event.results[0][0].transcript;
         setQuestion(transcript);
         console.log("Transcript:", transcript);
       };
 
-      recognition.onerror = (event) => {
+      recognition.onerror = (event: any) => {
         console.error("Speech recognition error:", event.error);
       };
 

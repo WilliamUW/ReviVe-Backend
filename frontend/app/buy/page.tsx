@@ -17,18 +17,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { useUserContext } from "@/component/UserContext";
-
-interface DeviceListing {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  condition: string;
-  location: string;
-  model: string;
-  quality: string;
-  imageLinks: string[];
-}
+import { DeviceListing } from "@/utils/device";
 
 export default function Marketplace() {
   const { listings: mockListings } = useUserContext();
