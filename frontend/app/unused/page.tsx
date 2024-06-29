@@ -12,6 +12,8 @@ export default function UnusedElectronic() {
   const router = useRouter();
   const [image, setImage] = useState<File | null>(null);
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
+  //state for listing logic
+  const [items, setItems] = useState<DeviceInfo[]>([]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -58,11 +60,16 @@ export default function UnusedElectronic() {
   };
 
   const listItem = () => {
-    console.log("Listing item:", deviceInfo);
+    if (deviceInfo) {
+      setItems((prevItems) => [...prevItems, deviceInfo]);
+      setDeviceInfo(null);
+      setImage(null);
+      console.log("Listing item:", deviceInfo);
     alert(
       `You have received ${deviceInfo?.b3tr_reward} B3TR tokens for listing your ${deviceInfo?.name}! \n\n Thank you for preventing more devices from going to landfills. 🌍🔋♻️`
     );
     router.push("/buy");
+    }
   };
 
   return (

@@ -9,6 +9,13 @@ import { speak } from "@/utils/tts";
 
 const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY!);
 
+//interface for listing logic
+interface DeviceInfo {
+  name: string;
+  model: string;
+  repair_instructions: string;
+}
+
 export default function BrokenElectronic() {
   const router = useRouter();
   const [image, setImage] = useState<File | null>(null);
@@ -17,6 +24,7 @@ export default function BrokenElectronic() {
     { user: string; bot: string }[]
   >([]);
   const [question, setQuestion] = useState<string>("");
+  const [items, setItems] = useState<DeviceInfo[]>([]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -92,8 +100,16 @@ export default function BrokenElectronic() {
 
   const listItem = () => {
     // Implement listing logic here
-    console.log("Listing broken item:", deviceInfo);
-    router.push("/unused");
+    if (deviceInfo) {
+      setItems((prevItems) => [...prevItems, deviceInfo]);
+      setDeviceInfo(null);
+      setImage(null);
+      console.log("Listing broken item:", deviceInfo);
+      alert(
+        `You have received ${deviceInfo?.b3tr_reward} B3TR tokens for listing your ${deviceInfo?.name}! \n\n Thank you for preventing more devices from going to landfills. 🌍🔋♻️`
+      );
+      router.push("/sell/unused");
+    }
   };
 
   const startSpeechRecognition = () => {
