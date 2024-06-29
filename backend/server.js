@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const axios = require("axios");
 
@@ -7,7 +9,7 @@ const port = 3001;
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY;
 const VET_ID = "vechain"; // This is the slug for VeChain on CoinMarketCap
 
-app.get("/vet-price", async (req, res) => {
+app.get("/", async (req, res) => {
   try {
     const response = await axios.get(
       `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest`,
