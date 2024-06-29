@@ -7,9 +7,10 @@ pragma solidity ^0.8.20;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import {VETOracle} from "./VETPriceOracle.sol";
 
-contract Marketplace is Ownable{
+contract Marketplace is Ownable, ReentrancyGuard{
     error InsufficientVET();
     error AlreadyPurchased();
     error ItemDoesntExist();
@@ -52,13 +53,12 @@ contract Marketplace is Ownable{
         oracle = VETOracle(_vetOracle);
     }
 
-    function distributeBetterToken(address _to, uint256 _amount) internal {
+    function distributeBetterToken(address _to, uint256 _amount) internal nonReentrant {
         betterDAO.transfer(_to, _amount);
     }
 
     function getVETPrice() internal view returns(uint256) {
-        uint256 price = oracle.getPrice();
-        return (price * 1e10);
+        return oracle.getPrice();
     }
     
     function initializeEntry(uint256 _uuid, address _seller, uint256 _price) external onlyOwner {
