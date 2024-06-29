@@ -100,4 +100,16 @@ contract Marketplace is Ownable{
         return addressToStats[_wallet];
     }
 
+    function getItemByUUID(uint256 _uuid) external view returns(Item memory) {
+        return uuidToItem[_uuid];
+    }
+
+    function getBetterPerLisitng() external view returns(uint256) {
+        return amountOfTokensPerLising;
+    }
+
+    function getBetterPerSale() external view returns(uint256) {
+        return amountOfTokensPerSale;
+    }
+
 }
