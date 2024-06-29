@@ -25,9 +25,9 @@ app.get("/", async (req, res) => {
 
     const data = response.data;
     const vechainData = data.data[Object.keys(data.data)[0]]; // Get the VET data
-    const price = vechainData.quote.USD.price;
+    const vet_price = vechainData.quote.USD.price;
 
-    res.json({ price });
+    res.json({ vet_price });
   } catch (error) {
     console.error("Error fetching VET price:", error);
     res.status(500).json({ error: "Error fetching VET price" });
