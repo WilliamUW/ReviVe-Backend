@@ -6,6 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@vechain/connex": "^2.1.0",
     "axios": "^0.21.1",
     "dotenv": "^16.4.5",
     "express": "^4.17.1"

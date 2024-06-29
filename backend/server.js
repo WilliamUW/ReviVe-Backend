@@ -4,7 +4,7 @@ const express = require("express");
 const axios = require("axios");
 
 const app = express();
-const port = 3001;
+const port = 3002;
 
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY;
 const VET_ID = "vechain"; // This is the slug for VeChain on CoinMarketCap
