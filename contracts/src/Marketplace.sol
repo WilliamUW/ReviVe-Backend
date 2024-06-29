@@ -29,6 +29,7 @@ contract Marketplace is Ownable{
     mapping(uint => Item) uuidToItem;
     mapping(address => PersonalStats) addressToStats;
     IERC20 betterDAO;
+    VETOracle oracle;
     uint256 amountOfTokensPerSale = 100;
     uint256 amountOfTokensPerLising = 10;
 
@@ -46,12 +47,18 @@ contract Marketplace is Ownable{
         _;
     }
 
-    constructor(address _betterDAO) Ownable(msg.sender) {
+    constructor(address _betterDAO, address _vetOracle) Ownable(msg.sender) {
         betterDAO = IERC20(_betterDAO);
+        oracle = VETOracle(_vetOracle);
     }
 
     function distributeBetterToken(address _to, uint256 _amount) internal {
         betterDAO.transfer(_to, _amount);
+    }
+
+    function getVETPrice() internal view returns(uint256) {
+        uint256 price = oracle.getPrice();
+        return (price * 1e10);
     }
     
     function initializeEntry(uint256 _uuid, address _seller, uint256 _price) external onlyOwner {
@@ -60,8 +67,10 @@ contract Marketplace is Ownable{
         addressToStats[_seller].numberOfItemsSold += 1;
     }
 
-    function buyToken(uint256 _uuid) external payable notBought(_uuid) uuidExists(_uuid){   
-        if(uuidToItem[_uuid].price > msg.value){
+    function buyToken(uint256 _uuid) external payable notBought(_uuid) uuidExists(_uuid){  
+        uint256 priceOfMsgInUSD = (msg.value * getVETPrice())/1e18;
+
+        if(uuidToItem[_uuid].price > priceOfMsgInUSD){
             revert InsufficientVET();
         }
 
@@ -87,6 +96,8 @@ contract Marketplace is Ownable{
         addressToStats[msg.sender].numberOfItemsBought += 1;
     }
 
-}
+    function getPersonalStats(address _wallet) external view returns(PersonalStats memory){
+        return addressToStats[_wallet];
+    }
 
-//make oracle for price
+}
