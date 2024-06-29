@@ -174,6 +174,20 @@ export default function UnusedElectronic() {
           </button>
         </>
       )}
+      <div className="mt-8 w-full max-w-md">
+          <h2 className="text-2xl font-bold mb-4">List Items:</h2>
+          <ul className="space-y-4">
+            {items.map((item, index) => (
+              <li key={index} className="border p-4 rounded-lg">
+                <h3 className="text-lg font-bold">{item.name}</h3>
+                <p>{item.description}</p>
+                <p><strong>Model:</strong>{item.model}</p>
+                <p><strong>Quality:</strong>{item.quality}</p>
+                <p><strong>Suggested Price:</strong>{item.suggested_price}</p>
+              </li>
+            ))}
+          </ul>
+      </div>
     </div>
   );
 }
